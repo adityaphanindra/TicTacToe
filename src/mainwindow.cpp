@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->statusBar()->setSizeGripEnabled(false);
+    this->setFixedSize(600, 600);
     _create_menu();
 }
 

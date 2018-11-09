@@ -6,6 +6,7 @@
 
 QT       += core gui
 
+CONFIG += debug
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TicTacToe
@@ -29,17 +30,23 @@ UI_DIR = .ui
 
 SOURCES += \
         src/game.cpp \
+        src/game_bot.cpp \
         src/game_cell.cpp \
         src/game_widget.cpp \
+        src/grid.cpp \
         src/main.cpp \
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+        src/match_box.cpp
 
 HEADERS += \
         include/constants.h \
         include/game.h \
+        include/game_bot.h \
         include/game_cell.h \
         include/game_widget.h \
-        include/mainwindow.h
+        include/grid.h \
+        include/mainwindow.h \
+        include/match_box.h
 
 INCLUDEPATH = include \
     MOC_DIR \

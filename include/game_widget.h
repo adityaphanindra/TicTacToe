@@ -18,17 +18,16 @@ public:
 private slots:
     void _cell_clicked(int8_t row_index, int8_t col_index);
 private:
-    bool _play_next(int8_t row_index, int8_t col_index, Move move);
-    void _update_grid(bool success, int8_t row_index, int8_t col_index, Move move);
-    void _update_status_string(bool success);
-    void _update_next_player(Move move);
+    bool _play_next(int8_t row_index, int8_t col_index, Move & next_player);
+    void _update_game_cells(bool success, int8_t row_index, int8_t col_index, Move move);
+    void _update_status_string();
     void _freeze_game();
     void _unfreeze_game();
 
     GameCell * _game_cells[NUM_ROWS][NUM_COLS];
+    QLabel * _move_label;
     QLabel * _status_label;
     Game _game;
-    Move _next_player;
 };
 
 #endif // GAME_WIDGET_H
