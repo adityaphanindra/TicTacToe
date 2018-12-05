@@ -22,15 +22,11 @@ private:
     bool _play(int8_t row_index, int8_t col_index);
     bool _play_bot(int8_t & row_index, int8_t & col_index);
     void _switch_next_player();
-    // void _check_game();
     void _print_game();
 
     Grid _grid;
     GameBot _game_bot;
-    // Move _next_player;
     std::string _game_status_string;
-    // GameState _current_game_state;
-    // std::tuple<int8_t, int8_t, int8_t> _winning_moves;
 };
 
 #endif // GAME_H
