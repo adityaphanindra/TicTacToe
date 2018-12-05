@@ -35,24 +35,6 @@ GameBot::GameBot() {
     }
     printf("GameBot::GameBot(): Valid grids found = %ld\n", num_valid_grids);
     fflush(stdout);
-
-    std::ifstream fin("ValidGrids.txt");
-    std::map<size_t, std::vector<Grid>> file_grids;
-    for (size_t grid_index = 0; grid_index < 304; ++grid_index) {
-        Grid grid;
-        for (int8_t row = 0; row < NUM_ROWS; ++row) {
-            for (int8_t col = 0; col < NUM_COLS; ++col) {
-                std::string move_symbol;
-                fin >> move_symbol;
-                assert (move_symbol == "." or move_symbol == "X" or move_symbol == "O");
-                grid.set_value(row, col, STR_MOVE_TO_MOVE(move_symbol));
-            }
-        }
-        size_t rank = grid.rank();
-        file_grids[rank].push_back(grid);
-    }
-
-    fin.close();
 }
 
 bool GameBot::get_next_move(const Grid & grid, MovePosition & position) {
