@@ -11,11 +11,13 @@
 
 Game::Game() {
     reset();
+    _load_game_history();
 }
 
 void Game::reset() {
     _grid.reset();
     _game_status_string = "";
+    _statistics.start_new_game();
 }
 
 bool Game::play_next(int8_t row_index, int8_t col_index, Move & next_move) {
@@ -52,6 +54,29 @@ std::vector<MovePosition> Game::get_winning_moves() {
     return _grid.winning_moves();
 }
 
+void Game::_load_game_history() {
+    printf("Loading Game History\n");
+    std::vector<std::vector<Move>> move_history;
+    std::vector<std::vector<MovePosition>> move_position_history;
+    std::vector<GameState> game_state_history;
+
+    _statistics.read_move_history(move_history, move_position_history, game_state_history);
+
+    assert(move_history.size() == move_position_history.size());
+    assert(move_history.size() == game_state_history.size());
+
+    size_t num_games = move_history.size();
+
+    for (size_t game_index = 0; game_index < num_games; ++game_index) {
+        std::vector<Move> moves = move_history.at(game_index);
+        std::vector<MovePosition> move_positions = move_position_history.at(game_index);
+        GameState game_state = game_state_history.at(game_index);
+
+        _game_bot.load_move_history(moves, move_positions);
+        _game_bot.finish_game(game_state);
+    }
+}
+
 bool Game::_play(int8_t row_index, int8_t col_index) {
     Move next_player = _grid.next_player();
     GameState current_game_state = _grid.game_state();
@@ -73,6 +98,8 @@ bool Game::_play(int8_t row_index, int8_t col_index) {
         return false;
     }
 
+    _statistics.log_move( next_player, std::make_pair(row_index, col_index));
+
     current_game_state = _grid.game_state();
 
     if (previous_game_state != current_game_state) {
@@ -85,6 +112,7 @@ bool Game::_play(int8_t row_index, int8_t col_index) {
 
     if (_grid.has_game_ended()) {
         _game_bot.finish_game(_grid.game_state());
+        _statistics.game_finished(_grid.game_state());
     }
 
     return true;
