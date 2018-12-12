@@ -36,7 +36,8 @@ SOURCES += \
         src/grid.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
-        src/match_box.cpp
+        src/match_box.cpp \
+        src/statistics.cpp
 
 HEADERS += \
         include/constants.h \
@@ -46,7 +47,8 @@ HEADERS += \
         include/game_widget.h \
         include/grid.h \
         include/mainwindow.h \
-        include/match_box.h
+        include/match_box.h \
+        include/statistics.h
 
 INCLUDEPATH = include \
     MOC_DIR \
