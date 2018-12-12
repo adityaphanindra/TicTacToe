@@ -29,10 +29,16 @@ enum class Move {
     s == Move::CROSS ? "X" :\
     "?")
 
-#define STR_MOVE_TO_MOVE(s) (\
+#define STR_MOVE_SYMBOL_TO_MOVE(s) (\
     s == "." ? Move::EMPTY  :\
     s == "O" ? Move::NOUGHT  :\
     s == "X" ? Move::CROSS  :\
+    Move::EMPTY)
+
+#define STR_MOVE_TO_MOVE(s) (\
+    s == "EMPTY" ? Move::EMPTY  :\
+    s == "NOUGHT" ? Move::NOUGHT  :\
+    s == "CROSS" ? Move::CROSS  :\
     Move::EMPTY)
 
 enum class GameState {
@@ -50,6 +56,25 @@ enum class GameState {
     g == GameState::DRAW ? "DRAW" :\
     g == GameState::INVALID ? "INVALID" :\
     "UNKNOWN")
+
+enum class GameOutcome {
+    BOT_WINS = 0,
+    PLAYER_WINS = 1,
+    DRAW = 2,
+    UNKNOWN = 3,
+};
+
+#define STR_GAME_OUTCOME(g) (\
+    g == GameOutcome::BOT_WINS ? "BOT_WINS" :\
+    g == GameOutcome::PLAYER_WINS ? "PLAYER_WINS" :\
+    g == GameOutcome::DRAW ? "DRAW" :\
+    "UNKNOWN")
+
+#define STR_GAME_OUTCOME_TO_GAME_OUTCOME(s) (\
+    s == "BOT_WINS" ? GameOutcome::BOT_WINS  :\
+    s == "PLAYER_WINS" ? GameOutcome::PLAYER_WINS :\
+    s == "DRAW" ? GameOutcome::DRAW  :\
+    GameOutcome::UNKNOWN)
 
 typedef std::pair<size_t, size_t> MovePosition;
 
