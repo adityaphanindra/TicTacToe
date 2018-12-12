@@ -27,6 +27,7 @@ public:
     GameBot();
     bool get_next_move(const Grid & grid, MovePosition & position);
     void finish_game(GameState game_state);
+    void load_move_history(const std::vector<Move> move_history, const std::vector<MovePosition> move_position_history);
 private:
     bool _transform_position(const Grid & grid, const Grid & match_box_grid, MovePosition & position);
     MatchBox * _find_match_box(const Grid & grid);

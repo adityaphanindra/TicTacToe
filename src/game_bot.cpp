@@ -95,6 +95,50 @@ void GameBot::finish_game(GameState game_state) {
     _move_position_history.clear();
 }
 
+void GameBot::load_move_history(const std::vector<Move> move_history, const std::vector<MovePosition> move_position_history) {
+    assert(move_history.size() == move_position_history.size());
+
+    _match_box_history.clear();
+    _move_position_history.clear();
+
+    Grid grid;
+    for (size_t move_index = 0; move_index < move_history.size(); ++move_index) {
+        const Move move = move_history.at(move_index);
+        const size_t row_index = move_position_history.at(move_index).first;
+        const size_t col_index = move_position_history.at(move_index).second;
+
+        printf("Replaying moves: move = %s at (%lu, %lu)\n", STR_MOVE(move), row_index, col_index);
+        assert(move != Move::EMPTY);
+        assert(row_index < NUM_ROWS);
+        assert(col_index < NUM_COLS);
+
+        Grid grid_before_move = grid;
+        grid.set_value(row_index, col_index, move);
+
+        if (grid_before_move.rank() >= _match_boxes.size()) {
+            break;
+        }
+        if (move != BOT_MOVE) {
+            continue;
+        }
+        if (grid_before_move.has_game_ended()) {
+            continue;
+        }
+
+        MatchBox * match_box = _find_match_box(grid_before_move);
+        grid_before_move.print_grid();
+        assert(match_box != nullptr);
+        match_box->get_grid().print_grid();
+
+        MovePosition transformed_position(row_index, col_index);
+        _transform_position(grid_before_move, match_box->get_grid(), transformed_position);
+
+        printf("Transformed position: (%lu, %lu)\n", transformed_position.first, transformed_position.second);
+        _match_box_history.push_back(match_box);
+        _move_position_history.push_back(transformed_position);
+    }
+}
+
 bool GameBot::_transform_position(const Grid & grid, const Grid & match_box_grid, MovePosition & position) {
     size_t row_index = position.first;
     size_t col_index = position.second;
